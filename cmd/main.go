@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"os"
 
 	openboardgo "github.com/bruhlord-s/openboard-go"
 	"github.com/bruhlord-s/openboard-go/pkg/handler"
 	"github.com/bruhlord-s/openboard-go/pkg/repository"
 	"github.com/bruhlord-s/openboard-go/pkg/service"
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
 
@@ -15,7 +17,23 @@ func main() {
 		log.Fatalf("error initializing configs: %s", err.Error())
 	}
 
-	repos := repository.NewRepository()
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("error loading .env variables: %s", err.Error())
+	}
+
+	db, err := repository.NewPostgresDB(repository.Config{
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		DBName:   viper.GetString("db.db_name"),
+		SSLMode:  viper.GetString("db.ssl_mode"),
+		Password: os.Getenv("DB_PASSWORD"),
+	})
+	if err != nil {
+		log.Fatalf("failed to connect to database: %s", err.Error())
+	}
+
+	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 
