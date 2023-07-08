@@ -7,6 +7,18 @@ import (
 	_ "github.com/lib/pq"
 )
 
+const (
+	usersTable            = "users"
+	workspacesTable       = "workspaces"
+	workspaceUsersTable   = "workspace_users"
+	workspaceInvitesTable = "workspace_invites"
+	boardsTable           = "boards"
+	tasksTable            = "tasks"
+	taskAttachmentsTable  = "task_attachments"
+	taskTimeTracksTable   = "task_time_tracks"
+	taskCommentsTable     = "task_comments"
+)
+
 type Config struct {
 	Host     string
 	Port     string
