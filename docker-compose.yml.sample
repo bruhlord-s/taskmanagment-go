@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: "ob"
+      POSTGRES_USER: "obuser"
+      POSTGRES_PASSWORD: "obpassword"
+    volumes:
+      - ob-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ob-network
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8000:8080"
+    networks:
+      - ob-network
+
+volumes:
+  ob-data:
+
+networks:
+  ob-network:
+    driver: bridge
