@@ -49,7 +49,7 @@ CREATE TABLE tasks
     description text,
     time_estimated int,
     assignee_id int references users(id) on delete set null,
-    created_by int references users(id) on delete set null
+    author_id int references users(id) on delete set null
 );
 
 CREATE TABLE task_attachments

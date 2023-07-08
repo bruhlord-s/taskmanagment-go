@@ -1,7 +1,7 @@
-package openboardgo
+package model
 
 type User struct {
-	Id       string `json:"-"`
+	Id       int    `json:"-"`
 	Name     string `json:"name"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
