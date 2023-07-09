@@ -1,10 +1,10 @@
 package model
 
 type Workspace struct {
-	Id          int    `json:"-"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Avatar      string `json:"avatar"`
+	Id          int    `json:"-" db:"id"`
+	Name        string `json:"name" binding:"required" db:"name"`
+	Description string `json:"description" db:"description"`
+	Avatar      string `json:"avatar" db:"avatar"`
 }
 
 type WorkspaceUser struct {

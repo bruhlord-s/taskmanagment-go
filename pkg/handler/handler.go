@@ -22,11 +22,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-in", h.signIn)
 	}
 
-	// TODO
-	// api := router.Group("/api")
-	// {
-
-	// }
+	api := router.Group("/api/v1", h.userIdentity)
+	{
+		workspace := api.Group("/workspace")
+		{
+			workspace.GET("/:id", h.getWorkspaceById)
+			workspace.GET("/", h.getAllWorkspaces)
+			workspace.POST("/", h.createWorkspace)
+			// workspace.PUT("/:id")
+			// workspace.DELETE("/:id")
+		}
+	}
 
 	return router
 }

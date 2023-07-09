@@ -5,16 +5,16 @@ CREATE TABLE users
     email varchar(255) not null unique,
     username varchar(255) not null unique,
     password_hash varchar(255) not null,
-    avatar varchar(255),
-    bio text
+    avatar varchar(255) DEFAULT '',
+    bio text DEFAULT ''
 );
 
 CREATE TABLE workspaces
 (
     id serial not null unique,
     name varchar(255) not null,
-    description text,
-    avatar varchar(255)
+    description text DEFAULT '',
+    avatar varchar(255) DEFAULT ''
 );
 
 CREATE TABLE workspace_users
@@ -46,7 +46,7 @@ CREATE TABLE tasks
     board_id int references boards(id) on delete cascade not null,
     number int not null,
     name varchar(255) not null,
-    description text,
+    description text DEFAULT '',
     time_estimated int,
     assignee_id int references users(id) on delete set null,
     author_id int references users(id) on delete set null
