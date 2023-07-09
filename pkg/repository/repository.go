@@ -14,6 +14,8 @@ type Workspace interface {
 	Create(userId int, workspace model.Workspace) (int, error)
 	GetAll(userId int) ([]model.Workspace, error)
 	GetById(userId, workspaceId int) (model.Workspace, error)
+	Update(userId, workspaceId int, input model.UpdateWorkspaceInput) error
+	Delete(userId, workspaceId int) error
 }
 
 type Repository struct {

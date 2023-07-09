@@ -29,8 +29,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			workspace.GET("/:id", h.getWorkspaceById)
 			workspace.GET("/", h.getAllWorkspaces)
 			workspace.POST("/", h.createWorkspace)
-			// workspace.PUT("/:id")
-			// workspace.DELETE("/:id")
+			workspace.PUT("/:id", h.updateWorkspace)
+			workspace.DELETE("/:id", h.deleteWorkspace)
 		}
 	}
 

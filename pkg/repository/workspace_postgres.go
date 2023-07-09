@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/bruhlord-s/openboard-go/pkg/model"
 	"github.com/jmoiron/sqlx"
@@ -67,4 +68,57 @@ func (r *WorkspacePostgres) GetById(userId, workspaceId int) (model.Workspace, e
 	err := r.db.Get(&workspace, query, userId, workspaceId)
 
 	return workspace, err
+}
+
+func (r *WorkspacePostgres) Update(userId, workspaceId int, input model.UpdateWorkspaceInput) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+
+	if input.Name != nil {
+		setValues = append(setValues, fmt.Sprintf("name=$%d", argId))
+		args = append(args, *&input.Name)
+		argId++
+	}
+
+	if input.Description != nil {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, *&input.Description)
+		argId++
+	}
+
+	if input.Avatar != nil {
+		setValues = append(setValues, fmt.Sprintf("avatar=$%d", argId))
+		args = append(args, *&input.Avatar)
+		argId++
+	}
+
+	setQuery := strings.Join(setValues, ", ")
+
+	query := fmt.Sprintf(
+		`UPDATE %s w SET %s FROM %s wu 
+			WHERE w.id = wu.workspace_id AND wu.workspace_id = $%d AND wu.user_id = $%d`,
+		workspacesTable,
+		setQuery,
+		workspaceUsersTable,
+		argId,
+		argId+1,
+	)
+	args = append(args, workspaceId, userId)
+
+	_, err := r.db.Exec(query, args...)
+
+	return err
+}
+
+func (r *WorkspacePostgres) Delete(userId, workspaceId int) error {
+	query := fmt.Sprintf(
+		`DELETE FROM %s w USING %s wu 
+			WHERE w.id = wu.workspace_id AND wu.user_id = $1 AND wu.workspace_id = $2`,
+		workspacesTable,
+		workspaceUsersTable,
+	)
+	_, err := r.db.Exec(query, userId, workspaceId)
+
+	return err
 }

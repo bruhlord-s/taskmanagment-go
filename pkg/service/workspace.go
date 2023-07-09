@@ -24,3 +24,14 @@ func (s *WorkspaceService) GetAll(userId int) ([]model.Workspace, error) {
 func (s *WorkspaceService) GetById(userId, workspaceId int) (model.Workspace, error) {
 	return s.repo.GetById(userId, workspaceId)
 }
+
+func (s *WorkspaceService) Update(userId, workspaceId int, input model.UpdateWorkspaceInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, workspaceId, input)
+}
+
+func (s *WorkspaceService) Delete(userId, workspaceId int) error {
+	return s.repo.Delete(userId, workspaceId)
+}

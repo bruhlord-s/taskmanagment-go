@@ -75,3 +75,51 @@ func (h *Handler) getWorkspaceById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, workspace)
 }
+
+func (h *Handler) updateWorkspace(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	var input model.UpdateWorkspaceInput
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.Workspace.Update(userId, id, input); err != nil {
+		newErrorResponse(c, http.StatusUnprocessableEntity, err.Error())
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
+func (h *Handler) deleteWorkspace(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	err = h.services.Workspace.Delete(userId, id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}
