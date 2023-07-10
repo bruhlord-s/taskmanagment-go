@@ -7,6 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary SignUp
+// @Tags auth
+// @Description create account
+// @ID create-account
+// @Accept json
+// @Produce json
+// @Param input body model.User true "account info"
+// @Success 200 {integer} integer 1
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var input model.User
 
@@ -31,6 +43,17 @@ type signInInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+// @Summary SignIn
+// @Tags auth
+// @Description retrieve token
+// @ID retrieve-token
+// @Accept json
+// @Produce json
+// @Param input body signInInput true "credentials"
+// @Success 200 {string} string "token"
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 
