@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/bruhlord-s/openboard-go/pkg/model"
-	"github.com/bruhlord-s/openboard-go/pkg/repository"
+	"github.com/bruhlord-s/openboard-go/internal/model"
+	"github.com/bruhlord-s/openboard-go/internal/repository"
 )
 
 type Authorization interface {

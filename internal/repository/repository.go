@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/bruhlord-s/openboard-go/pkg/model"
+	"github.com/bruhlord-s/openboard-go/internal/model"
 	"github.com/jmoiron/sqlx"
 )
 

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/bruhlord-s/openboard-go/pkg/service"
+	"github.com/bruhlord-s/openboard-go/internal/service"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

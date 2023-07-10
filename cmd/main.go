@@ -7,9 +7,9 @@ import (
 	"syscall"
 
 	openboardgo "github.com/bruhlord-s/openboard-go"
-	"github.com/bruhlord-s/openboard-go/pkg/handler"
-	"github.com/bruhlord-s/openboard-go/pkg/repository"
-	"github.com/bruhlord-s/openboard-go/pkg/service"
+	"github.com/bruhlord-s/openboard-go/internal/handler"
+	"github.com/bruhlord-s/openboard-go/internal/repository"
+	"github.com/bruhlord-s/openboard-go/internal/service"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

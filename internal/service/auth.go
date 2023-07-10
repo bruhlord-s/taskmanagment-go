@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/bruhlord-s/openboard-go/pkg/model"
-	"github.com/bruhlord-s/openboard-go/pkg/repository"
+	"github.com/bruhlord-s/openboard-go/internal/model"
+	"github.com/bruhlord-s/openboard-go/internal/repository"
 	"github.com/dgrijalva/jwt-go"
 )
 

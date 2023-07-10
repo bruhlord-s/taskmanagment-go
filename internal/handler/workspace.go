@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/bruhlord-s/openboard-go/pkg/model"
+	"github.com/bruhlord-s/openboard-go/internal/model"
 	"github.com/gin-gonic/gin"
 )
 
