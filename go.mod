@@ -5,6 +5,11 @@ go 1.20
 require github.com/gin-gonic/gin v1.9.1
 
 require (
+	github.com/golang/mock v1.6.0 // indirect
+	golang.org/x/mod v0.9.0 // indirect
+)
+
+require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect

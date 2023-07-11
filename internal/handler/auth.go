@@ -24,8 +24,8 @@ import (
 func (h *Handler) signUp(c *gin.Context) {
 	var input model.User
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusUnprocessableEntity, err.Error())
+	if err := c.ShouldBindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusUnprocessableEntity, "invalid input body")
 		return
 	}
 
