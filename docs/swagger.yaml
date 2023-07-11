@@ -77,10 +77,6 @@ paths:
             items:
               $ref: '#/definitions/model.Workspace'
             type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -158,8 +154,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Workspace'
-        "400":
-          description: Bad Request
+        "422":
+          description: Unprocessable Entity
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "500":
@@ -221,8 +217,12 @@ paths:
           description: token
           schema:
             type: string
-        "400":
-          description: Bad Request
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "422":
+          description: Unprocessable Entity
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "500":
@@ -252,8 +252,8 @@ paths:
           description: OK
           schema:
             type: integer
-        "400":
-          description: Bad Request
+        "422":
+          description: Unprocessable Entity
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "500":

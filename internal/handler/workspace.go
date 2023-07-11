@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/bruhlord-s/openboard-go/internal/model"
 	"github.com/gin-gonic/gin"
@@ -56,7 +57,6 @@ type getAllWorkspacesResponse struct {
 // @Accept json
 // @Produce json
 // @Success 200 {object} []model.Workspace
-// @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace [get]
 func (h *Handler) getAllWorkspaces(c *gin.Context) {
@@ -86,6 +86,7 @@ func (h *Handler) getAllWorkspaces(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} model.Workspace
 // @Failure 400 {object} errorResponse
+// @Failure 404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace/{id} [get]
 func (h *Handler) getWorkspaceById(c *gin.Context) {
@@ -103,6 +104,10 @@ func (h *Handler) getWorkspaceById(c *gin.Context) {
 
 	workspace, err := h.services.Workspace.GetById(userId, id)
 	if err != nil {
+		if strings.Contains(err.Error(), "no rows in result set") {
+			newErrorResponse(c, http.StatusNotFound, "no workspaces found with given id")
+			return
+		}
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -143,6 +148,7 @@ func (h *Handler) updateWorkspace(c *gin.Context) {
 
 	if err := h.services.Workspace.Update(userId, id, input); err != nil {
 		newErrorResponse(c, http.StatusUnprocessableEntity, err.Error())
+		return
 	}
 
 	c.Status(http.StatusNoContent)

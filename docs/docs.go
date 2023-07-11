@@ -45,12 +45,6 @@ const docTemplate = `{
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/handler.errorResponse"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -136,8 +130,8 @@ const docTemplate = `{
                             "$ref": "#/definitions/model.Workspace"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
                         }
@@ -266,8 +260,14 @@ const docTemplate = `{
                             "type": "string"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
                         }
@@ -313,8 +313,8 @@ const docTemplate = `{
                             "type": "integer"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
                         }
