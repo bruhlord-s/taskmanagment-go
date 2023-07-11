@@ -67,8 +67,8 @@ type signInInput struct {
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusUnprocessableEntity, err.Error())
+	if err := c.ShouldBindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusUnprocessableEntity, "invalid input body")
 		return
 	}
 

@@ -103,3 +103,86 @@ func TestHandler_signUp(t *testing.T) {
 		})
 	}
 }
+
+func TestHandler_signIn(t *testing.T) {
+	type mockBehavior func(s *mock_service.MockAuthorization, input signInInput)
+
+	testTable := []struct {
+		name                string
+		inputBody           string
+		inputUser           signInInput
+		mockBehavior        mockBehavior
+		exceptedStatusCode  int
+		exceptedRequestBody string
+	}{
+		{
+			name: "OK",
+			inputBody: `{
+				"username": "admin",
+				"password": "12345678"
+				}`,
+			inputUser: signInInput{
+				Username: "admin",
+				Password: "12345678",
+			},
+			mockBehavior: func(s *mock_service.MockAuthorization, input signInInput) {
+				s.EXPECT().GenerateToken(input.Username, input.Password).Return("token", nil)
+			},
+			exceptedStatusCode:  http.StatusOK,
+			exceptedRequestBody: `{"token":"token"}`,
+		},
+		{
+			name: "Empty Fields",
+			inputBody: `{
+				"email": "test@test.com",
+				}`,
+			mockBehavior:        func(s *mock_service.MockAuthorization, input signInInput) {},
+			exceptedStatusCode:  http.StatusUnprocessableEntity,
+			exceptedRequestBody: `{"message":"invalid input body"}`,
+		},
+		{
+			name: "Service Failure",
+			inputBody: `{
+				"username": "admin",
+				"password": "12345678"
+				}`,
+			inputUser: signInInput{
+				Username: "admin",
+				Password: "12345678",
+			},
+			mockBehavior: func(s *mock_service.MockAuthorization, input signInInput) {
+				s.
+					EXPECT().
+					GenerateToken(input.Username, input.Password).
+					Return("token", errors.New("service failure"))
+			},
+			exceptedStatusCode:  http.StatusInternalServerError,
+			exceptedRequestBody: `{"message":"service failure"}`,
+		},
+	}
+
+	for _, testCase := range testTable {
+		t.Run(testCase.name, func(t *testing.T) {
+			c := gomock.NewController(t)
+			defer c.Finish()
+
+			auth := mock_service.NewMockAuthorization(c)
+			testCase.mockBehavior(auth, testCase.inputUser)
+
+			services := &service.Service{Authorization: auth}
+			handler := NewHandler(services)
+
+			r := gin.New()
+			r.POST("/sign-in", handler.signIn)
+
+			w := httptest.NewRecorder()
+			req := httptest.NewRequest("POST", "/sign-in",
+				bytes.NewBufferString(testCase.inputBody))
+
+			r.ServeHTTP(w, req)
+
+			assert.Equal(t, w.Code, testCase.exceptedStatusCode)
+			assert.Equal(t, w.Body.String(), testCase.exceptedRequestBody)
+		})
+	}
+}
