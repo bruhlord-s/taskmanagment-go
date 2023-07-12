@@ -12,7 +12,7 @@ import (
 	mock_service "github.com/bruhlord-s/openboard-go/internal/service/mocks"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	"github.com/magiconair/properties/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler_signUp(t *testing.T) {
@@ -98,8 +98,8 @@ func TestHandler_signUp(t *testing.T) {
 
 			r.ServeHTTP(w, req)
 
-			assert.Equal(t, w.Code, testCase.exceptedStatusCode)
-			assert.Equal(t, w.Body.String(), testCase.exceptedRequestBody)
+			assert.Equal(t, testCase.exceptedStatusCode, w.Code)
+			assert.Equal(t, testCase.exceptedRequestBody, w.Body.String())
 		})
 	}
 }
@@ -181,8 +181,8 @@ func TestHandler_signIn(t *testing.T) {
 
 			r.ServeHTTP(w, req)
 
-			assert.Equal(t, w.Code, testCase.exceptedStatusCode)
-			assert.Equal(t, w.Body.String(), testCase.exceptedRequestBody)
+			assert.Equal(t, testCase.exceptedStatusCode, w.Code)
+			assert.Equal(t, testCase.exceptedRequestBody, w.Body.String())
 		})
 	}
 }
