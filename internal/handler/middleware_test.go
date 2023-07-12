@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/bruhlord-s/openboard-go/internal/context"
 	"github.com/bruhlord-s/openboard-go/internal/service"
 	mock_service "github.com/bruhlord-s/openboard-go/internal/service/mocks"
 	"github.com/gin-gonic/gin"
@@ -86,7 +87,7 @@ func TestHandler_userIdentity(t *testing.T) {
 
 			r := gin.New()
 			r.POST("/test", handler.userIdentity, func(c *gin.Context) {
-				id, _ := c.Get(userCtx)
+				id, _ := c.Get(context.UserCtx)
 				c.String(http.StatusOK, fmt.Sprintf("%d", id.(int)))
 			})
 

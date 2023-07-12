@@ -22,7 +22,7 @@ import (
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace [post]
 func (h *Handler) createWorkspace(c *gin.Context) {
-	userId, err := getUserId(c)
+	userId, err := h.services.Authorization.GetUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -60,7 +60,7 @@ type getAllWorkspacesResponse struct {
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace [get]
 func (h *Handler) getAllWorkspaces(c *gin.Context) {
-	userId, err := getUserId(c)
+	userId, err := h.services.Authorization.GetUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -90,7 +90,7 @@ func (h *Handler) getAllWorkspaces(c *gin.Context) {
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace/{id} [get]
 func (h *Handler) getWorkspaceById(c *gin.Context) {
-	userId, err := getUserId(c)
+	userId, err := h.services.Authorization.GetUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -128,7 +128,7 @@ func (h *Handler) getWorkspaceById(c *gin.Context) {
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace/{id} [put]
 func (h *Handler) updateWorkspace(c *gin.Context) {
-	userId, err := getUserId(c)
+	userId, err := h.services.Authorization.GetUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -166,7 +166,7 @@ func (h *Handler) updateWorkspace(c *gin.Context) {
 // @Failure 500 {object} errorResponse
 // @Router /api/v1/workspace/{id} [delete]
 func (h *Handler) deleteWorkspace(c *gin.Context) {
-	userId, err := getUserId(c)
+	userId, err := h.services.Authorization.GetUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
