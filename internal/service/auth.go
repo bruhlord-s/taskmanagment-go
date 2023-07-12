@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/bruhlord-s/openboard-go/internal/context"
 	"github.com/bruhlord-s/openboard-go/internal/model"
 	"github.com/bruhlord-s/openboard-go/internal/repository"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 const (
@@ -70,6 +72,20 @@ func (s *AuthService) ParseToken(accessToken string) (int, error) {
 	}
 
 	return claims.UserId, nil
+}
+
+func (s *AuthService) GetUserId(c *gin.Context) (int, error) {
+	id, ok := c.Get(context.UserCtx)
+	if !ok {
+		return 0, errors.New("user id not found")
+	}
+
+	idInt, ok := id.(int)
+	if !ok {
+		return 0, errors.New("user id is of invalid type")
+	}
+
+	return idInt, nil
 }
 
 func (s *AuthService) generatePassordHash(password string) string {

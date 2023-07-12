@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	model "github.com/bruhlord-s/openboard-go/internal/model"
+	gin "github.com/gin-gonic/gin"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -62,6 +63,21 @@ func (m *MockAuthorization) GenerateToken(username, password string) (string, er
 func (mr *MockAuthorizationMockRecorder) GenerateToken(username, password interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenerateToken", reflect.TypeOf((*MockAuthorization)(nil).GenerateToken), username, password)
+}
+
+// GetUserId mocks base method.
+func (m *MockAuthorization) GetUserId(c *gin.Context) (int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserId", c)
+	ret0, _ := ret[0].(int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserId indicates an expected call of GetUserId.
+func (mr *MockAuthorizationMockRecorder) GetUserId(c interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserId", reflect.TypeOf((*MockAuthorization)(nil).GetUserId), c)
 }
 
 // ParseToken mocks base method.

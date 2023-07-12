@@ -3,12 +3,14 @@ package service
 import (
 	"github.com/bruhlord-s/openboard-go/internal/model"
 	"github.com/bruhlord-s/openboard-go/internal/repository"
+	"github.com/gin-gonic/gin"
 )
 
 type Authorization interface {
 	CreateUser(user model.User) (int, error)
 	GenerateToken(username, password string) (string, error)
 	ParseToken(token string) (int, error)
+	GetUserId(c *gin.Context) (int, error)
 }
 
 type Workspace interface {
